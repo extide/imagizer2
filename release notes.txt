@@ -1,0 +1,27 @@
+Thanks for looking at Imagizer2. This is the first public release of this project even though the project was always intended to be open source from the get go. 
+
+Why Imagizer2?
+Well I first created Imagizer around 2004-5 in VB.NET as back then I was only a VB programmer. Infact this was one of my first .NET apps. I have since learned a lot more about .net and have also learned C#. I decided to re-write the app in C# and that is also when I added multi threading capability.
+
+I was tired of all the terrible options available online, especially with most of them wanting money just to be able to batch convert a folder full of images, so I made this app. Hopefully someone else also finds this app useful to them.
+
+NOTE: To build this project you shouldn't need anything other than Visual Studio 2008 installed (that is what I use). The project could be converted to work in Visual Studio 2005 as well.
+
+Release History:
+1.5.0 11/14/2009
+-Added aspect ratio locking
+-Fixed a nasty crash that would happen if you exited the program while a conversion was in progress
+-Cleaned up some code
+
+1.4.0 11/13/2009
+-Fixed some bugs with the state persisting when app is closed
+-Added recursive directory support
+-Added tool tips
+
+
+1.3.1 - 11/13/2009
+-First Public Release
+-GPLv3
+-Multi Threaded
+-Settings persist when app closes
+-Code has been cleaned up significantly
