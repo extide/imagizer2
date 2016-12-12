@@ -21,6 +21,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+using System.Diagnostics;
 
 namespace Imagizer2
 {
@@ -156,12 +157,38 @@ namespace Imagizer2
                     textBox.Text = fbDialog.SelectedPath;
             }
         }
+        private void DoStartConversion()
+        {
+            if (DataContainer.Running)
+            {
+                MessageBox.Show("Already Running!", "Imagizer2 Error!");
+                return;
+            }
 
-        #endregion
+            ConversionParameters conversionParameters;
+            try
+            {
+                conversionParameters = GetConversionParameters();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
 
-        #region Event Handlers
+            gbThreadingSetup.Enabled = false;
+            btnGo.Text = "Working";
+            btnGo.Enabled = false;
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+            if (!Directory.Exists(conversionParameters.OutputDir))
+                Directory.CreateDirectory(conversionParameters.OutputDir);
+
+            _startTicks = Environment.TickCount;
+
+            ImgProcessor.RunImagizer(conversionParameters);
+        }
+
+        private void ProcessExit()
         {
             DataContainer.Cancel = true;
             EventProcessor.Instance.ConversionComplete -= _conversionCompleteHandler;
@@ -176,12 +203,22 @@ namespace Imagizer2
                 ImagizerSettings.Default.SettingXml = SerializationUtility.SerializeObject(conversionParameters);
                 ImagizerSettings.Default.Save();
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.Print(ex.ToString());
                 //we threw ourselves an error, so we will not continue.
-                //A messagebox should have aklready been displayed
+                //A messagebox should have already been displayed
                 return;
             }
+        }
+
+        #endregion
+
+        #region Event Handlers
+        
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ProcessExit();
         }
 
         private void rbPercent_CheckedChanged(object sender, EventArgs e)
@@ -250,7 +287,14 @@ namespace Imagizer2
 
         private void btnGo_Click(object sender, EventArgs e)
         {
-            DoStartConversion();
+            if (txtInputDir.Text == string.Empty || txtOutputDir.Text == string.Empty || txtInputDir.Text == txtOutputDir.Text)
+            {
+                throw new ApplicationException(string.Format("You must fill out both the input and output folder,{0}and they have to be different folders,{0}they cannot point to the same place.", Environment.NewLine));
+            } else
+            {
+                DoStartConversion();
+            }
+
         }
 
         #endregion
@@ -274,36 +318,6 @@ namespace Imagizer2
             }
         }
 
-        private void DoStartConversion()
-        {
-            if (DataContainer.Running)
-            {
-                MessageBox.Show("Already Running!", "Imagizer2 Error!");
-                return;
-            }
-
-            ConversionParameters conversionParameters;
-            try
-            {
-                conversionParameters = GetConversionParameters();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return;
-            }
-
-            gbThreadingSetup.Enabled = false;
-            btnGo.Text = "Working";
-            btnGo.Enabled = false;
-
-            if (!Directory.Exists(conversionParameters.OutputDir))
-                Directory.CreateDirectory(conversionParameters.OutputDir);
-
-            _startTicks = Environment.TickCount;
-
-            ImgProcessor.RunImagizer(conversionParameters);
-        }
         /// <summary>
         /// Reads parameters from application (mostly the form) and creates a
         /// ConversionParameters which can then be serialized into a settings file
@@ -312,11 +326,6 @@ namespace Imagizer2
         private ConversionParameters GetConversionParameters()
         {
             ConversionParameters conversionParameters = new ConversionParameters();
-
-            if (txtInputDir.Text == string.Empty || txtOutputDir.Text == string.Empty || txtInputDir.Text == txtOutputDir.Text)
-            {
-                throw new ApplicationException(string.Format("You must fill out both the input and output folder,{0}and they have to be different folders,{0}they cannot point to the same place.", Environment.NewLine));
-            }
 
             conversionParameters.InputDir = txtInputDir.Text;
             conversionParameters.OutputDir = txtOutputDir.Text;
@@ -409,6 +418,15 @@ namespace Imagizer2
 
             _aspectLockState = AspectLockState.Disabled;
 
+            txtHeight.Text = conversionParameters.NewHeight.ToString();
+            txtWidth.Text = conversionParameters.NewWidth.ToString();
+
+            cbRecusive.Checked = conversionParameters.IncludeSubDirs;
+            cbStripExif.Checked = conversionParameters.StripExif;
+
+            rbPercent.Checked = false;
+            rbPixels.Checked = false;
+
             switch (conversionParameters.AspectLockState)
             {
                 case AspectLockState.LockHeight:
@@ -447,15 +465,7 @@ namespace Imagizer2
                 rbEmf.Checked = true;
 
             else if (conversionParameters.ImageFormat == ImageFormat.Icon)
-                rbIco.Checked = true;
-
-            txtHeight.Text = conversionParameters.NewHeight.ToString();
-            txtWidth.Text = conversionParameters.NewWidth.ToString();
-
-            cbRecusive.Checked = conversionParameters.IncludeSubDirs;
-
-            rbPercent.Checked = false;
-            rbPixels.Checked = false;
+                rbIco.Checked = true;          
 
             switch (conversionParameters.ResizeMode)
             {
@@ -470,10 +480,5 @@ namespace Imagizer2
             }
         }
         #endregion
-
-        private void btnSettings_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

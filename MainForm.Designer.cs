@@ -172,7 +172,6 @@ namespace Imagizer2
         "d for the images to remain in their original format, or select a format and all " +
         "images will be converted to it.");
             this.btnSettings.Visible = false;
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // rbPercent
             // 
@@ -542,7 +541,7 @@ namespace Imagizer2
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Imagizer2";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.gbInputDirectory.ResumeLayout(false);
             this.gbInputDirectory.PerformLayout();
             this.gbThreadingSetup.ResumeLayout(false);
