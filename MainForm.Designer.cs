@@ -350,8 +350,8 @@ namespace Imagizer2
             this.btnLockWidth.Size = new System.Drawing.Size(18, 19);
             this.btnLockWidth.TabIndex = 18;
             this.btnLockWidth.Text = "L";
-            this.toolTip1.SetToolTip(this.btnLockWidth, "This will lock the aspect ratio. This will allow you to enter in one dimention an" +
-        "d have it auto-calculate the other one for each image.");
+            this.toolTip1.SetToolTip(this.btnLockWidth, "This will lock the aspect ratio. If you enable this otion, enter a height, and th" +
+        "e width will be auto calculated.");
             this.btnLockWidth.UseVisualStyleBackColor = true;
             this.btnLockWidth.Click += new System.EventHandler(this.btnLockWidth_Click);
             // 
@@ -363,8 +363,8 @@ namespace Imagizer2
             this.btnLockHeight.Size = new System.Drawing.Size(18, 19);
             this.btnLockHeight.TabIndex = 18;
             this.btnLockHeight.Text = "L";
-            this.toolTip1.SetToolTip(this.btnLockHeight, "This will lock the aspect ratio. This will allow you to enter in one dimention an" +
-        "d have it auto-calculate the other one for each image.");
+            this.toolTip1.SetToolTip(this.btnLockHeight, "This will lock the aspect ratio. If you enable this otion, enter a height, and th" +
+        "e height will be auto calculated.\r\n");
             this.btnLockHeight.UseVisualStyleBackColor = true;
             this.btnLockHeight.Click += new System.EventHandler(this.btnLockHeight_Click);
             // 
@@ -408,6 +408,8 @@ namespace Imagizer2
             this.cbStripExif.Size = new System.Drawing.Size(73, 17);
             this.cbStripExif.TabIndex = 14;
             this.cbStripExif.Text = "Strip EXIF";
+            this.toolTip1.SetToolTip(this.cbStripExif, "Enabling this option will remove all personal identifiable info like geo-tagging," +
+        " camera make/model/etc.");
             this.cbStripExif.UseVisualStyleBackColor = true;
             // 
             // cbSize

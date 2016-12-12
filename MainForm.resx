@@ -148,6 +148,7 @@
     <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
   </data>
   <data name="cbSize.ToolTip" xml:space="preserve">
-    <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
+    <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size.
+To maintain the proper aspect ratios on images, either resize by percent,or use the L button to lock the dimention you wish to be auto-calculated</value>
   </data>
 </root>
