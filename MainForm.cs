@@ -319,7 +319,7 @@ namespace Imagizer2
             }
             catch
             {
-                //just toss it here because it probably means outr settings are blank or corrupt
+                //just toss it here because it probably means our settings are blank or corrupt
             }
         }
 

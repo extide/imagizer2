@@ -17,6 +17,8 @@ features of 2015 -- so I am sure you could get the project to open in prior vers
 (current) free versions of Visual Studio available  on Microsoft's website -- I would suggest grabbing
 one if you don't have it currently.
 
+NOTE: Install https://www.microsoft.com/en-us/download/details.aspx?id=26829 for CR2 support -- NOT IMPLEMENTED YET
+
 Release History:
 
 1.6.1.2 12/11/2016
