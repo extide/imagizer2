@@ -215,7 +215,11 @@ namespace Imagizer2
         #endregion
 
         #region Event Handlers
-        
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DataContainer.Cancel = true;
+        }
+
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             ProcessExit();
@@ -290,7 +294,8 @@ namespace Imagizer2
             if (txtInputDir.Text == string.Empty || txtOutputDir.Text == string.Empty || txtInputDir.Text == txtOutputDir.Text)
             {
                 throw new ApplicationException(string.Format("You must fill out both the input and output folder,{0}and they have to be different folders,{0}they cannot point to the same place.", Environment.NewLine));
-            } else
+            }
+            else
             {
                 DoStartConversion();
             }
@@ -465,7 +470,7 @@ namespace Imagizer2
                 rbEmf.Checked = true;
 
             else if (conversionParameters.ImageFormat == ImageFormat.Icon)
-                rbIco.Checked = true;          
+                rbIco.Checked = true;
 
             switch (conversionParameters.ResizeMode)
             {
@@ -480,5 +485,6 @@ namespace Imagizer2
             }
         }
         #endregion
+        
     }
 }
